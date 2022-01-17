@@ -29,17 +29,16 @@ class CoinManager
 
   def find_available_change(amount_to_deduct)
     change = []
-    deducted = amount_to_deduct
     coins_bucket_sorted_desc = coins_bucket.sort.reverse
 
     coins_bucket_sorted_desc.each do |value, coins|
-      next if deducted < value
+      next if amount_to_deduct < value
 
-      coins_to_remove = deducted / value
+      coins_to_remove = amount_to_deduct / value
       change += coins_bucket[value].last(coins_to_remove)
-
-      deducted = deducted % value
+      amount_to_deduct %= value
     end
+
     change
   end
 
